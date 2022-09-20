@@ -8,7 +8,7 @@ const attributes = {
     autoIncrement: true,
   },
   name: { type: Sequelize.STRING },
-  price: { type: Sequelize.DECIMAL(4, 2) },
+  price: { type: Sequelize.DECIMAL },
   urlImage: {
     type: Sequelize.STRING,
     field: 'url_Image',
@@ -17,7 +17,7 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const Product = sequelize.define('Product', attributes, {
+  const Product = sequelize.define('Products', attributes, {
     tableName: 'Products',
     timestamps: false,
   });

@@ -15,13 +15,13 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const User = sequelize.define('User', attributes, {
+  const User = sequelize.define('Users', attributes, {
     tableName: 'Users',
     timestamps: false,
   });
   User.associate = (models) => {
-    User.hasMany(models.Sales, { foreignKey: 'userId', as: 'sales' });
-    User.hasMany(models.Sales, { foreignKey: 'sellerId', as: 'sales' });
+    User.hasMany(models.Sales, { foreignKey: 'userId', as: 'salesUser' });
+    User.hasMany(models.Sales, { foreignKey: 'sellerId', as: 'salesSeller' });
   };
   return User;
 };

@@ -7,7 +7,7 @@ const attributes = {
     primaryKey: true,
     field: 'sale_id',
     references: {
-      model: 'Sales',
+      model: 'Sale',
       key: 'id',
     },
   },
@@ -25,22 +25,22 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const SaleProduct = sequelize.define('SaleProduct', attributes, {
+  const SaleProduct = sequelize.define('SalesProducts', attributes, {
     tableName: 'SalesProducts',
     timestamps: false,
   });
 
   SaleProduct.associate = (models) => {
     models.Product.belongsToMany(models.Sale, {
-      as: 'Sale',
-      foreignKey: 'saleId',
-      otherKey: 'productId',
+      as: 'sales',
+      foreignKey: 'productId',
+      otherKey: 'saleId',
       through: SaleProduct,
     });
     models.Sale.belongsToMany(models.Product, {
       as: 'products',
-      foreignKey: 'productId',
-      otherKey: 'saleId',
+      foreignKey: 'saleId',
+      otherKey: 'productId',
       through: SaleProduct,
     });
   };
