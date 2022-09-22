@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { requestLogin } from '../Axios/RequestLogin';
 import { setUser } from '../Helpers/LocalStorage';
 
@@ -7,6 +7,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [renderError, setRenderErro] = useState(false);
+  const history = useHistory();
 
   const validateEmail = () => {
     const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+$/i;
@@ -22,6 +23,7 @@ function Login() {
     try {
       const result = await requestLogin('http://localhost:3001/login', { email, password });
       setUser(result);
+      history.push('/customer/products');
     } catch (error) {
       setRenderErro(true);
     }
@@ -51,14 +53,15 @@ function Login() {
         disabled={ validateEmail() || validatePassword() }
         onClick={ validateLogin }
       >
-        <Link to="customer/products">Login</Link>
+        Login
       </button>
 
       <button
         type="button"
         data-testid="common_login__button-register"
+        onClick={ () => history.push('/register') }
       >
-        <Link to="/register">Ainda não tenho conta</Link>
+        Ainda não tenho conta
       </button>
 
       { renderError
