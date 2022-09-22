@@ -4,6 +4,9 @@ const errorHandlerMiddleware = require('../middleware/errorHandlerMiddleware');
 const loginRoute = require('../routes/loginRoutes');
 
 const app = express();
+const cors = require('cors');
+
+app.use(cors())
 
 app.use(express.json());
 
