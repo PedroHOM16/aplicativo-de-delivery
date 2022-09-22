@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Context from './Context';
+// import React from 'react';
+// import PropTypes from 'prop-types';
+// import Context from './Context';
 
-function Provider({ children }) {
-  const contextValue = {
-  };
+// function Provider({ children }) {
+//   const contextValue = {
+//   };
 
-  return (
-    <Context.Provider value={ contextValue }>
-      { children }
-    </Context.Provider>
-  );
-}
+//   return (
+//     <Context.Provider value={ contextValue }>
+//       { children }
+//     </Context.Provider>
+//   );
+// }
 
-Provider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+// Provider.propTypes = {
+//   children: PropTypes.node.isRequired,
+// };
 
-export default Provider;
+// export default Provider;
