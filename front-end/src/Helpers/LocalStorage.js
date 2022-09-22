@@ -1,7 +1,5 @@
-const TOKEN = 'token';
+const USER = 'user';
 
-export const setToken = (data) => {
-  localStorage.setItem(TOKEN, data);
-};
+export const setUser = (data) => localStorage.setItem(USER, JSON.stringify(data));
 
-export const getToken = () => JSON.parse(localStorage.getItem(TOKEN));
+export const getUser = () => JSON.parse(localStorage.getItem(USER));

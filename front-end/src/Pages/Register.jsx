@@ -3,13 +3,19 @@ import { Link } from 'react-router-dom';
 import { requestLogin } from '../Axios/RequestLogin';
 import { setUser } from '../Helpers/LocalStorage';
 
-function Login() {
+function Register() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [renderError, setRenderErro] = useState(false);
 
+  const validateName = () => {
+    const minName = 12;
+    return name.length < minName;
+  };
+
   const validateEmail = () => {
-    const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+$/i;
+    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/i;
     return !email.match(regex);
   };
 
@@ -29,9 +35,19 @@ function Login() {
 
   return (
     <div>
+      Cadastro
+
       <input
         type="text"
-        data-testid="common_login__input-email"
+        data-testid="common_register__input-name"
+        onChange={ ({ target }) => {
+          setName(target.value);
+        } }
+      />
+
+      <input
+        type="text"
+        data-testid="common_register__input-email"
         onChange={ ({ target }) => {
           setEmail(target.value);
         } }
@@ -39,7 +55,7 @@ function Login() {
 
       <input
         type="password"
-        data-testid="common_login__input-password"
+        data-testid="common_register__input-password"
         onChange={ ({ target }) => {
           setPassword(target.value);
         } }
@@ -47,24 +63,17 @@ function Login() {
 
       <button
         type="button"
-        data-testid="common_login__button-login"
-        disabled={ validateEmail() || validatePassword() }
+        data-testid="common_register__button-register"
+        disabled={ validateEmail() || validatePassword() || validateName() }
         onClick={ validateLogin }
       >
-        <Link to="customer/products">Login</Link>
-      </button>
-
-      <button
-        type="button"
-        data-testid="common_login__button-register"
-      >
-        <Link to="/register">Ainda não tenho conta</Link>
+        <Link to="customer/products">Cadastrar</Link>
       </button>
 
       { renderError
         ? (
-          <p data-testid="common_login__element-invalid-email">
-            Usuário ou Senha Inválido
+          <p data-testid="common_register__element-invalid_register">
+            Dados Inválidos
           </p>
         )
         : undefined}
@@ -72,4 +81,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
