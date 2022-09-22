@@ -3,15 +3,8 @@ import PropTypes from 'prop-types';
 import Context from './Context';
 
 function Provider({ children }) {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-
-  // const contextValue = {
-  //   email,
-  //   setEmail,
-  //   password,
-  //   setPassword,
-  // };
+  const contextValue = {
+  };
 
   return (
     <Context.Provider value={ contextValue }>

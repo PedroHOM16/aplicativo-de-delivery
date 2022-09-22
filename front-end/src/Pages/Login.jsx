@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// import { requestLogin } from '../axios/requestLogin';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -12,6 +13,12 @@ function Login() {
   const validatePassword = () => {
     const minPassword = 6;
     return password.length < minPassword;
+  };
+
+  const validateLogin = async () => {
+    // const result = await requestLogin('http://localhost:3001/login', { email, password });
+    // if (!result) {
+    // }
   };
 
   return (
@@ -36,6 +43,7 @@ function Login() {
         type="button"
         data-testid="common_login__button-login"
         disabled={ validateEmail() || validatePassword() }
+        onClick={ validateLogin }
       >
         Login
       </button>
