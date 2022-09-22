@@ -39,7 +39,7 @@ const attributes = {
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
   const Sale = sequelize.define('Sales', attributes, {
-    tableName: 'Sales',
+    tableName: 'sales',
     timestamps: false,
   });
   Sale.associate = (models) => {
