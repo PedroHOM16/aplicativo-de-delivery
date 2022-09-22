@@ -7,7 +7,7 @@ const attributes = {
     primaryKey: true,
     field: 'sale_id',
     references: {
-      model: 'Sale',
+      model: 'Sales',
       key: 'id',
     },
   },
@@ -32,13 +32,13 @@ module.exports = (sequelize) => {
 
   SaleProduct.associate = (models) => {
     models.Products.belongsToMany(models.Sales, {
-      as: 'sales',
+      as: 'productSales',
       foreignKey: 'productId',
       otherKey: 'saleId',
       through: SaleProduct,
     });
     models.Sales.belongsToMany(models.Products, {
-      as: 'products',
+      as: 'salesProducts',
       foreignKey: 'saleId',
       otherKey: 'productId',
       through: SaleProduct,
