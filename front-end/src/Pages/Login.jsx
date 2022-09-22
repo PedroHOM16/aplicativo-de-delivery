@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-// import { requestLogin } from '../axios/requestLogin';
+import { requestLogin } from '../Axios/RequestLogin';
+import { setToken } from '../Helpers/LocalStorage';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [renderError, setRenderErro] = useState(false);
 
   const validateEmail = () => {
     const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/i;
@@ -16,9 +18,12 @@ function Login() {
   };
 
   const validateLogin = async () => {
-    // const result = await requestLogin('http://localhost:3001/login', { email, password });
-    // if (!result) {
-    // }
+    try {
+      const result = await requestLogin('http://localhost:3001/login', { email, password });
+      setToken(result);
+    } catch (error) {
+      setRenderErro(true);
+    }
   };
 
   return (
@@ -55,7 +60,13 @@ function Login() {
         Ainda não tenho conta
       </button>
 
-      <p data-testid="common_login__element-invalid-email">a</p>
+      { renderError
+        ? (
+          <p data-testid="common_login__element-invalid-email">
+            Usuário ou Senha Inválido
+          </p>
+        )
+        : undefined}
     </div>
   );
 }

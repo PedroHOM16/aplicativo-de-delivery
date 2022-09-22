@@ -1,8 +1,8 @@
 const Joi = require('joi');
 const Jwt = require('jsonwebtoken');
+const md5 = require('md5');
 const { Users } = require('../database/models');
 const { throwNotFoundError, throwUnauthorizedError } = require('./utils');
-const md5 = require('md5');
 
 const secret = process.env.JWT_SECRET;
 
