@@ -3,10 +3,10 @@ const loginService = require('../services/loginService');
 const loginController = {
   async login(req, res) {
     const data = await loginService.validateBodyLogin(req.body);
-    await loginService.getByUserOrThrows(data);
-    const { email } = data;
-    const token = await loginService.makeToken({ email });
-    res.json({ token });
+    const user = await loginService.getByUserOrThrows(data);
+    const { password, id, ...dataUser } = user;
+    const token = await loginService.makeToken({ user });
+    res.json({ ...dataUser, token });
   },
 };
 

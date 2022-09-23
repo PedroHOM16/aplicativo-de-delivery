@@ -18,7 +18,7 @@ const attributes = {
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
   const Product = sequelize.define('Products', attributes, {
-    tableName: 'Products',
+    tableName: 'products',
     timestamps: false,
   });
   return Product;
