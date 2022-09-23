@@ -8,7 +8,7 @@ const registerController = {
     const user = await registerService.createUser(data);
     const { password, id, ...dataUser } = user;
     const token = await loginService.makeToken({ user });
-    res.json({ ...dataUser, token });
+    res.status(201).json({ ...dataUser, token });
   },
 };
 
