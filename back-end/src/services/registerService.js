@@ -21,17 +21,17 @@ const registerService = {
         });
         if (user) throwConflictError('Email já cadastrado');
     },
-    async createUser({ name, password, email }){
+    async createUser({ name, password, email }) {
       console.log(name);
-        const payload = 
-        {
+        const payload = {
          name,
          password: md5(password),
          email,
-         role:'customer',
+         role: 'customer',
         };
         const user = await Users.create(payload);
         return user;
-    }
-}
+    },
+};
+
 module.exports = registerService;
