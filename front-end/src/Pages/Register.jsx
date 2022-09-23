@@ -7,7 +7,7 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [renderError, setRenderErro] = useState(false);
+  const [renderError, setRenderError] = useState(false);
 
   const history = useHistory();
 
@@ -27,13 +27,14 @@ function Register() {
   };
 
   const validateLogin = async () => {
-    try {
-      const result = await requestLogin('/register', { name, email, password });
-      if (result.message) throw Error;
-      setUser(result);
+    const result = await requestLogin('/register', { name, email, password });
+    if (result.error) {
+      setRenderError(result.error.message);
+    } else {
+      setRenderError('');
+      console.log(result);
+      setUser(result.data);
       history.push('/customer/products');
-    } catch (error) {
-      setRenderErro(true);
     }
   };
 

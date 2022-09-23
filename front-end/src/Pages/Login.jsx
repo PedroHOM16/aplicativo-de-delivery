@@ -6,7 +6,7 @@ import { setUser } from '../Helpers/LocalStorage';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [renderError, setRenderErro] = useState(false);
+  const [renderError, setRenderError] = useState('');
   const history = useHistory();
 
   const validateEmail = () => {
@@ -20,12 +20,21 @@ function Login() {
   };
 
   const validateLogin = async () => {
-    try {
-      const result = await requestLogin('/login', { email, password });
-      setUser(result);
+    // try {
+    //   const result = await requestLogin('/login', { email, password });
+    //   setUser(result);
+    //   history.push('/customer/products');
+    // } catch (error) {
+    //   setRenderErro(true);
+    // }
+    const result = await requestLogin('/login', { email, password });
+    if (result.error) {
+      setRenderError(result.error.message);
+    } else {
+      setRenderError('');
+      console.log(result);
+      setUser(result.data);
       history.push('/customer/products');
-    } catch (error) {
-      setRenderErro(true);
     }
   };
 
@@ -65,12 +74,11 @@ function Login() {
       </button>
 
       { renderError
-        ? (
+        && (
           <p data-testid="common_login__element-invalid-email">
-            Usuário ou Senha Inválido
+            {renderError}
           </p>
-        )
-        : undefined}
+        )}
     </div>
   );
 }
