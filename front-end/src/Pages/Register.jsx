@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { requestLogin } from '../Axios/RequestLogin';
+import { useHistory } from 'react-router-dom';
+import { requestLogin } from '../Services/RequestPost';
 import { setUser } from '../Helpers/LocalStorage';
 
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [renderError, setRenderErro] = useState(false);
+  const [renderError, setRenderError] = useState(false);
+
+  const history = useHistory();
 
   const validateName = () => {
     const minName = 12;
@@ -15,7 +17,7 @@ function Register() {
   };
 
   const validateEmail = () => {
-    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/i;
+    const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+$/i;
     return !email.match(regex);
   };
 
@@ -25,11 +27,14 @@ function Register() {
   };
 
   const validateLogin = async () => {
-    try {
-      const result = await requestLogin('http://localhost:3001/login', { email, password });
-      setUser(result);
-    } catch (error) {
-      setRenderErro(true);
+    const result = await requestLogin('/register', { name, email, password });
+    if (result.error) {
+      setRenderError(result.error.message);
+    } else {
+      setRenderError('');
+      console.log(result);
+      setUser(result.data);
+      history.push('/customer/products');
     }
   };
 
@@ -67,7 +72,7 @@ function Register() {
         disabled={ validateEmail() || validatePassword() || validateName() }
         onClick={ validateLogin }
       >
-        <Link to="customer/products">Cadastrar</Link>
+        Cadastrar
       </button>
 
       { renderError

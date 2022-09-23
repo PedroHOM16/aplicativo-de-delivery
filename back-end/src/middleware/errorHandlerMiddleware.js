@@ -11,7 +11,9 @@ const errors = {
  * @param {import('express').Response} res 
  * @param {import('express').NextFunction} next 
  */
-const errorHandlerMiddleware = ({ name, message }, _req, res, _next) => {
+const errorHandlerMiddleware = (err, _req, res, _next) => {
+  const { name, message } = err;
+  console.log(err);
   const status = errors[name];
   if (!status) return res.sendStatus(500);
   res.status(status).json({ message });
