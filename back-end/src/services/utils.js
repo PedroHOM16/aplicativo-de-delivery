@@ -4,7 +4,7 @@ const throwValidationError = (message = 'Erro de validação') => {
   throw err;
 };
 
-const throwConflictError = (message = 'Conflito') => {
+const throwConflictError = (message = 'Conflict') => {
   const err = new Error(message);
   err.name = 'Conflict';
   throw err;
