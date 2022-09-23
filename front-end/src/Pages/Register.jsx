@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { requestLogin } from '../Axios/RequestLogin';
+import { useHistory } from 'react-router-dom';
+import { requestLogin } from '../Services/RequestPost';
 import { setUser } from '../Helpers/LocalStorage';
 
 function Register() {
@@ -8,6 +8,8 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [renderError, setRenderErro] = useState(false);
+
+  const history = useHistory();
 
   const validateName = () => {
     const minName = 12;
@@ -26,8 +28,10 @@ function Register() {
 
   const validateLogin = async () => {
     try {
-      const result = await requestLogin('http://localhost:3001/login', { email, password });
+      const result = await requestLogin('/register', { name, email, password });
+      if (result.message) throw Error;
       setUser(result);
+      history.push('/customer/products');
     } catch (error) {
       setRenderErro(true);
     }
@@ -67,7 +71,7 @@ function Register() {
         disabled={ validateEmail() || validatePassword() || validateName() }
         onClick={ validateLogin }
       >
-        <Link to="customer/products">Cadastrar</Link>
+        Cadastrar
       </button>
 
       { renderError

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { requestLogin } from '../Axios/RequestLogin';
+import { requestLogin } from '../Services/RequestPost';
 import { setUser } from '../Helpers/LocalStorage';
 
 function Login() {
@@ -21,7 +21,7 @@ function Login() {
 
   const validateLogin = async () => {
     try {
-      const result = await requestLogin('http://localhost:3001/login', { email, password });
+      const result = await requestLogin('/login', { email, password });
       setUser(result);
       history.push('/customer/products');
     } catch (error) {
