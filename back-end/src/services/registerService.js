@@ -29,8 +29,8 @@ const registerService = {
          email,
          role: 'customer',
         };
-        const user = await Users.create(payload);
-        return user;
+        const user = await Users.create(payload, { raw: true });
+        return user.dataValues;
     },
 };
 
