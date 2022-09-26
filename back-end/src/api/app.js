@@ -4,6 +4,7 @@ const cors = require('cors');
 const errorHandlerMiddleware = require('../middleware/errorHandlerMiddleware');
 const loginRoute = require('../routes/loginRoutes');
 const registerRoute = require('../routes/registerRoutes');
+const customerRoute = require('../routes/customerRoutes');
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use('/login', loginRoute);
 
 app.use('/register', registerRoute);
+
+app.use('/customer', customerRoute);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 
