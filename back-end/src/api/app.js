@@ -5,6 +5,7 @@ const errorHandlerMiddleware = require('../middleware/errorHandlerMiddleware');
 const loginRoute = require('../routes/loginRoutes');
 const registerRoute = require('../routes/registerRoutes');
 const customerRoute = require('../routes/customerRoutes');
+const imagesRoute = require('../routes/imagesRoutes');
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use('/login', loginRoute);
 app.use('/register', registerRoute);
 
 app.use('/customer', customerRoute);
+
+app.use('/images', express.static('public'));
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 
