@@ -20,8 +20,8 @@ const loginService = {
     const { authorization } = headers;
     console.log('authorization: ', authorization);
     if (!authorization) throwUnauthorizedError('Token not found');
-    let token = ''
-    if (authorization.split(' ').length > 1) token = authorization.split(' ')[1];
+    let token = '';
+    if (authorization.split(' ').length > 1) [token] = authorization.split(' ');
     else token = authorization;
     return token;
   },
