@@ -20,20 +20,13 @@ function Login() {
   };
 
   const validateLogin = async () => {
-    // try {
-    //   const result = await requestLogin('/login', { email, password });
-    //   setUser(result);
-    //   history.push('/customer/products');
-    // } catch (error) {
-    //   setRenderErro(true);
-    // }
     const result = await requestLogin('/login', { email, password });
     if (result.error) {
       setRenderError(result.error.message);
     } else {
       setRenderError('');
       console.log(result);
-      setUser(result.data);
+      setUser(result);
       history.push('/customer/products');
     }
   };
