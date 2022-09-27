@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import '../CSS/CustomerProducts.css';
-import { validateLogin, getProducts } from '../Services/RequestPost';
+import { getProducts } from '../Services/RequestPost';
 import { getUser, removeUser, setCar,
   setTotalCar, getTotalCarLocal, getCar } from '../Helpers/LocalStorage';
 import Card from '../Components/Card';
 
 function CustomerProducts() {
-  const [products, setProducts] = useState('');
+  const [products, setProducts] = useState();
   const [carState, setCarState] = useState(getCar());
   const [total, setTotal] = useState();
   const history = useHistory();
@@ -16,15 +16,20 @@ function CustomerProducts() {
   const getTotalCarFunc = () => {
     let totale = 0;
     carState.forEach((item) => {
-      totale += item.price;
+      totale += Number(item.price);
     });
     setTotal(totale.toFixed(2));
   };
 
   const getProductsFunc = async () => {
-    const { token } = getUser();
-    const { data } = await getProducts('/customer/products', token);
-    setProducts(data);
+    try {
+      const { token } = getUser();
+      const { data } = await getProducts('/customer/products', token);
+      setProducts(data);
+    } catch (error) {
+      removeUser();
+      history.push('/login');
+    }
   };
 
   useEffect(() => {
@@ -32,12 +37,8 @@ function CustomerProducts() {
       await getProductsFunc();
     };
     asyncFunc();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   setProducts(mockProducts);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   useEffect(() => {
     getTotalCarFunc();
@@ -50,17 +51,7 @@ function CustomerProducts() {
     }
   }, []);
 
-  const validateLoginFunc = async () => {
-    const { token } = getUser();
-    const result = await validateLogin('login/validate', token);
-    if (result.error) {
-      removeUser();
-      history.push('/login');
-    }
-  };
-
   useEffect(() => {
-    validateLoginFunc();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -72,7 +63,7 @@ function CustomerProducts() {
 
   return (
     <div>
-      <NavBar />
+      { products && <NavBar /> }
 
       <main className="mainProducts">
         { products && products.map(
@@ -83,6 +74,7 @@ function CustomerProducts() {
             urlImage,
           }) => (<Card
             key={ id }
+            id={ id }
             name={ name }
             price={ price }
             urlImage={ urlImage }

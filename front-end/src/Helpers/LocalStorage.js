@@ -7,7 +7,11 @@ export const setUser = (data) => localStorage.setItem(USER, JSON.stringify(data)
 
 export const setRegister = (data) => localStorage.setItem(REGISTER, JSON.stringify(data));
 
-export const getUser = () => JSON.parse(localStorage.getItem(USER));
+export const getUser = () => {
+  const userLocal = JSON.parse(localStorage.getItem(USER));
+  if (userLocal) return userLocal;
+  return { token: '' };
+};
 
 export const removeUser = () => localStorage.removeItem(USER);
 
@@ -26,7 +30,7 @@ export const getTotalCarLocal = () => {
   if (getCar()) {
     let totale = 0;
     getCar().forEach((item) => {
-      totale += item.price;
+      totale += Number(item.price);
     });
     return totale.toFixed(2);
   }

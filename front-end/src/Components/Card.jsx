@@ -1,19 +1,50 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { quantityFilterLocal } from '../Helpers/LocalStorage';
+import { getCar } from '../Helpers/LocalStorage';
 import '../CSS/Card.css';
 
-function Card({ name, price, urlImage, setCarState }) {
-  const [quantity, setQuantity] = useState(quantityFilterLocal(name));
+function Card({ id, name, price, urlImage, setCarState }) {
+  const verifyQuantity = () => {
+    const car = getCar();
+    const sameItemIndex = car.findIndex((itemCar) => itemCar.name === name);
+    const itemCar = car[sameItemIndex];
+    if (itemCar) {
+      const { quantity } = car[sameItemIndex];
+      if (quantity) return quantity;
+    }
+    return 0;
+  };
+  const [quantity, setQuantity] = useState(verifyQuantity());
   const priceBr = price.toString().replace('.', ',');
+
+  const addItem = () => {
+    setCarState((item) => {
+      const car = [...item];
+      const hasItem = car.some((itemCar) => itemCar.name === name);
+      const sameItemIndex = car.findIndex((itemCar) => itemCar.name === name);
+      const addingItem = item[sameItemIndex];
+      if (hasItem) {
+        addingItem.quantity += 1;
+        return car;
+      }
+      return [...car, { id, name, price, quantity: 1 }];
+    });
+  };
 
   const removeItem = () => {
     setCarState((item) => {
       const car = [...item];
       const newCar = car.findIndex((itemCar) => itemCar.name === name);
-      if (newCar >= 0) {
-        car.splice(newCar, 1);
-        return car;
+      const addingItem = item[newCar];
+      if (addingItem) {
+        if (newCar >= 0 && addingItem.quantity > 1) {
+          addingItem.quantity -= 1;
+          return car;
+        }
+        if (addingItem.quantity === 1) {
+          car.splice(car[newCar], 1);
+          return car;
+        }
       }
       return car;
     });
@@ -69,7 +100,8 @@ function Card({ name, price, urlImage, setCarState }) {
           type="button"
           onClick={ () => {
             setQuantity(quantity + 1);
-            setCarState((car) => [...car, { name, price }]);
+            // setCarState((car) => [...car, { name, price }]);
+            addItem();
           } }
         >
           +
@@ -80,8 +112,9 @@ function Card({ name, price, urlImage, setCarState }) {
 }
 
 Card.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
+  price: PropTypes.string.isRequired,
   urlImage: PropTypes.string.isRequired,
   setCarState: PropTypes.func.isRequired,
 };
