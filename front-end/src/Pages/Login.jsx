@@ -10,7 +10,7 @@ function Login() {
   const history = useHistory();
 
   const validateEmail = () => {
-    const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+$/i;
+    const regex = /\S+@\S+\.\S+/;
     return !email.match(regex);
   };
 
