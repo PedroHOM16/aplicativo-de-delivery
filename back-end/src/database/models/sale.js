@@ -30,6 +30,7 @@ const attributes = {
   saleDate: {
     type: Sequelize.DATE,
     field: 'sale_date',
+    defaultValue: new Date(),
   },
   status: {
     type: Sequelize.STRING,
