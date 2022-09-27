@@ -4,7 +4,7 @@ import NavBar from '../Components/NavBar';
 import '../CSS/CustomerProducts.css';
 import { validateLogin, getProducts } from '../Services/RequestPost';
 import { getUser, removeUser, setCar,
-  setTotalCar, getTotalCarLocal } from '../Helpers/LocalStorage';
+  setTotalCar } from '../Helpers/LocalStorage';
 import Card from '../Components/Card';
 
 function CustomerProducts() {
