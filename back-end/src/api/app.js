@@ -5,6 +5,7 @@ const errorHandlerMiddleware = require('../middleware/errorHandlerMiddleware');
 const loginRoute = require('../routes/loginRoutes');
 const registerRoute = require('../routes/registerRoutes');
 const customerRoute = require('../routes/customerRoutes');
+const userRoute = require('../routes/userRoutes');
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/login', loginRoute);
+
+app.use('/user', userRoute);
 
 app.use('/register', registerRoute);
 
