@@ -1,7 +1,5 @@
-.card {
-  background-color: cornflowerblue;
+.mainProducts {
   display: flex;
-  flex-direction: column;
-  margin: 20px;
-  padding: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
 }

@@ -1,46 +1,59 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import { setCar, removeCar } from '../Helpers/LocalStorage';
+import { quantityFilterLocal } from '../Helpers/LocalStorage';
+import '../CSS/Card.css';
 
-function Card({ name, price, url_image: imgURL, setCarState }) {
-  const [quantity, setQuantity] = useState(0);
+function Card({ name, price, urlImage, setCarState }) {
+  const [quantity, setQuantity] = useState(quantityFilterLocal(name));
   const priceBr = price.toString().replace('.', ',');
 
   const removeItem = () => {
     setCarState((item) => {
       const car = [...item];
       const newCar = car.findIndex((itemCar) => itemCar.name === name);
-      car.splice(newCar, 1);
+      if (newCar >= 0) {
+        car.splice(newCar, 1);
+        return car;
+      }
       return car;
     });
   };
 
+  const nonNegativeQuantity = () => {
+    if (quantity > 0) {
+      return quantity - 1;
+    }
+    return 0;
+  };
+
   return (
     <div className="card">
-      <p
-        data-testid="customer_products__element-card-price"
-      >
-        { `R$${priceBr}` }
-      </p>
+      <div className="infoCard">
+        <p
+          data-testid="customer_products__element-card-price"
+        >
+          { `R$${priceBr}` }
+        </p>
 
-      <img
-        data-testid="customer_products__img-card-bg-image"
-        src={ imgURL }
-        alt={ name }
-      />
+        <img
+          data-testid="customer_products__img-card-bg-image"
+          src={ urlImage }
+          alt={ name }
+        />
 
-      <h3
-        data-testid="customer_products__button-card-add-item"
-      >
-        { name }
-      </h3>
+        <h3
+          data-testid="customer_products__button-card-add-item"
+        >
+          { name }
+        </h3>
+      </div>
 
-      <div>
+      <div className="btnDivCard">
         <button
           data-testid="customer_products__button-card-rm-item"
           type="button"
           onClick={ () => {
-            setQuantity(quantity - 1);
+            setQuantity(nonNegativeQuantity());
             removeItem();
           } }
         >
@@ -69,7 +82,7 @@ function Card({ name, price, url_image: imgURL, setCarState }) {
 Card.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  url_image: PropTypes.string.isRequired,
+  urlImage: PropTypes.string.isRequired,
   setCarState: PropTypes.func.isRequired,
 };
 

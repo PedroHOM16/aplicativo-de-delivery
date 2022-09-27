@@ -1,0 +1,26 @@
+.card {
+  width: 100px;
+  align-items: center;
+  background-color: cornflowerblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 20px;
+  padding: 10px;
+}
+
+.card img {
+  width: 50px;
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.btnDivCard {
+  display: flex;
+  align-items: center;
+}

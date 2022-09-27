@@ -1,4 +1,14 @@
 .navBar {
+  height: 100%;
   align-items: center;
   display: flex;
+  justify-content: space-around;
+  background-color: #0A6B52;
+  padding: 10px;
+}
+
+.navBar a {
+  all: unset;
+  font-size: 30px;
+  color: white;
 }

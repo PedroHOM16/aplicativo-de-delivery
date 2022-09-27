@@ -14,4 +14,8 @@ export const validateLogin = (endpoint, token) => api.post(endpoint, {
   },
 });
 
-export const getProducts = (endpoint) => api.get(endpoint);
+export const getProducts = (endpoint, token) => api.get(endpoint, {
+  headers: {
+    Authorization: token,
+  },
+});
