@@ -13,7 +13,11 @@ export const getUser = () => {
   return { token: '' };
 };
 
-export const removeUser = () => localStorage.removeItem(USER);
+export const removeUser = () => {
+  localStorage.removeItem(USER);
+  localStorage.removeItem(CAR);
+  localStorage.removeItem(TOTAL);
+};
 
 export const setCar = (data) => localStorage.setItem(CAR, JSON.stringify(data));
 
@@ -27,13 +31,10 @@ export const getCar = () => {
 export const setTotalCar = (data) => localStorage.setItem(TOTAL, JSON.stringify(data));
 
 export const getTotalCarLocal = () => {
-  if (getCar()) {
-    let totale = 0;
-    getCar().forEach((item) => {
-      totale += Number(item.price);
-    });
-    return totale.toFixed(2);
-  }
+  const subTotal = getCar().reduce((a, b) => (
+    a + (Number(b.price) * Number(b.quantity))
+  ), 0);
+  return subTotal.toFixed(2);
 };
 
 export const quantityFilterLocal = (name) => getCar()
