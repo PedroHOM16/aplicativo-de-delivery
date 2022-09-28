@@ -17,7 +17,6 @@ function CustomerProducts() {
     const subTotal = carState.reduce((a, b) => (
       a + (Number(b.price) * b.quantity)
     ), 0);
-    console.log(subTotal);
     setTotal(subTotal.toFixed(2));
   };
 
@@ -86,22 +85,18 @@ function CustomerProducts() {
       <button
         type="button"
         onClick={ btnCar }
-        data-testid="customer_products__checkout-bottom-value"
+        data-testid="customer_products__button-cart"
+        disabled={ Number(total) === 0 }
       >
         Carrinho de Compras:R$
-        { total }
+        <p
+          data-testid="customer_products__checkout-bottom-value"
+        >
+          {total.toString().replace('.', ',')}
+        </p>
       </button>
     </div>
   );
 }
 
 export default CustomerProducts;
-
-// {
-//   id: 1,
-//   name: 'Skol Lata 250ml',
-//   price: 2.20,
-//   url_image: 'http://localhost:3001/images/skol_lata_350ml.jpg',
-// }
-
-// const quantityFilter = car.filter((localItem) => localItem.name === name).length;
