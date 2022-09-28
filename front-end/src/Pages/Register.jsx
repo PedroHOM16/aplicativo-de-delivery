@@ -32,7 +32,6 @@ function Register() {
       setRenderError(result.error.message);
     } else {
       setRenderError('');
-      console.log('result front: ', result.data);
       setUser(result);
       history.push('/customer/products');
     }

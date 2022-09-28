@@ -31,6 +31,20 @@ function Card({ id, name, price, urlImage, setCarState }) {
     });
   };
 
+  const addItemInput = (quantityInput) => {
+    setCarState((item) => {
+      const car = [...item];
+      const hasItem = car.some((itemCar) => itemCar.name === name);
+      const sameItemIndex = car.findIndex((itemCar) => itemCar.name === name);
+      const addingItem = item[sameItemIndex];
+      if (hasItem) {
+        addingItem.quantity = quantityInput;
+        return car;
+      }
+      return [...car, { id, name, price, quantity: 1 }];
+    });
+  };
+
   const removeItem = () => {
     setCarState((item) => {
       const car = [...item];
@@ -94,7 +108,10 @@ function Card({ id, name, price, urlImage, setCarState }) {
         <input
           data-testid={ `customer_products__input-card-quantity-${id}` }
           value={ quantity }
-          onChange={ ({ target }) => setQuantity(Number(target.value)) }
+          onChange={ ({ target }) => {
+            setQuantity(Number(target.value));
+            addItemInput(Number(target.value));
+          } }
         />
         <button
           data-testid={ `customer_products__button-card-add-item-${id}` }
