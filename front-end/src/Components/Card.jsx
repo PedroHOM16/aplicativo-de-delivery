@@ -37,18 +37,25 @@ function Card({ id, name, price, urlImage, setCarState }) {
       const hasItem = car.some((itemCar) => itemCar.name === name);
       const sameItemIndex = car.findIndex((itemCar) => itemCar.name === name);
       const addingItem = item[sameItemIndex];
-      if (hasItem) {
-        addingItem.quantity = quantityInput;
-        return car;
+      if (quantityInput) {
+        if (Number(quantityInput) === 0) {
+          car.splice(car[newCar], 1);
+          return car;
+        }
+        if (hasItem) {
+          addingItem.quantity = quantityInput;
+          return car;
+        }
+        return [...car, { id, name, price, quantity: quantityInput }];
       }
-      return [...car, { id, name, price, quantity: 1 }];
+      return car;
     });
   };
 
   const removeItem = () => {
     setCarState((item) => {
       const car = [...item];
-      const newCar = car.findIndex((itemCar) => itemCar.name === name);
+      const newCar = car.findIndex((itemCar) => itemCar.id === id);
       const addingItem = item[newCar];
       if (addingItem) {
         if (newCar >= 0 && addingItem.quantity > 1) {
@@ -56,7 +63,7 @@ function Card({ id, name, price, urlImage, setCarState }) {
           return car;
         }
         if (addingItem.quantity === 1) {
-          car.splice(car[newCar], 1);
+          car.splice(newCar, 1);
           return car;
         }
       }
