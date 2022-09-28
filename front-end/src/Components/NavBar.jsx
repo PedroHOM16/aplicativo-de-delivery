@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getUser } from '../Helpers/LocalStorage';
+import { getUser, removeUser } from '../Helpers/LocalStorage';
 import '../CSS/NavBar.css';
 
 function NavBar() {
@@ -29,6 +29,7 @@ function NavBar() {
       <Link
         to="/login"
         data-testid="customer_products__element-navbar-link-logout"
+        onClick={ removeUser }
       >
         Sair
       </Link>
