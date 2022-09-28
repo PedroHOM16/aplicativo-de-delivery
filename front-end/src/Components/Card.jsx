@@ -60,20 +60,21 @@ function Card({ id, name, price, urlImage, setCarState }) {
   return (
     <div className="card">
       <div className="infoCard">
+
         <p
-          data-testid="customer_products__element-card-price"
+          data-testid={ `customer_products__element-card-price-${id}` }
         >
           { `R$${priceBr}` }
         </p>
 
         <img
-          data-testid="customer_products__img-card-bg-image"
+          data-testid={ `customer_products__img-card-bg-image-${id}` }
           src={ urlImage }
           alt={ name }
         />
 
         <h3
-          data-testid="customer_products__button-card-add-item"
+          data-testid={ `customer_products__element-card-title-${id}` }
         >
           { name }
         </h3>
@@ -81,7 +82,7 @@ function Card({ id, name, price, urlImage, setCarState }) {
 
       <div className="btnDivCard">
         <button
-          data-testid="customer_products__button-card-rm-item"
+          data-testid={ `customer_products__button-card-rm-item-${id}` }
           type="button"
           onClick={ () => {
             setQuantity(nonNegativeQuantity());
@@ -90,13 +91,13 @@ function Card({ id, name, price, urlImage, setCarState }) {
         >
           -
         </button>
-        <h2
-          data-testid="customer_products__input-card-quantity"
-        >
-          { quantity }
-        </h2>
+        <input
+          data-testid={ `customer_products__input-card-quantity-${id}` }
+          value={ quantity }
+          onChange={ ({ target }) => setQuantity(Number(target.value)) }
+        />
         <button
-          data-testid="customer_products__checkout-bottom-value"
+          data-testid={ `customer_products__button-card-add-item-${id}` }
           type="button"
           onClick={ () => {
             setQuantity(quantity + 1);
