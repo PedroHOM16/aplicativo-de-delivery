@@ -10,15 +10,15 @@ import Card from '../Components/Card';
 function CustomerProducts() {
   const [products, setProducts] = useState();
   const [carState, setCarState] = useState(getCar());
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState(0);
   const history = useHistory();
 
   const getTotalCarFunc = () => {
-    let totale = 0;
-    carState.forEach((item) => {
-      totale += Number(item.price);
-    });
-    setTotal(totale.toFixed(2));
+    const subTotal = carState.reduce((a, b) => (
+      a + (Number(b.price) * b.quantity)
+    ), 0);
+    console.log(subTotal);
+    setTotal(subTotal.toFixed(2));
   };
 
   const getProductsFunc = async () => {
@@ -83,7 +83,11 @@ function CustomerProducts() {
         )}
       </main>
 
-      <button type="button" onClick={ btnCar }>
+      <button
+        type="button"
+        onClick={ btnCar }
+        data-testid="customer_products__checkout-bottom-value"
+      >
         Carrinho de Compras:R$
         { total }
       </button>
