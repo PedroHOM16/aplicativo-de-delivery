@@ -8,7 +8,7 @@ function CustomerCheckout() {
   const [carState, setCarState] = useState(getCar());
   const [total, setTotal] = useState(getTotalCarLocal());
   const [sellers, setSellers] = useState();
-  const [sellerSelected, setSellerSelected] = useState(1);
+  const [sellerSelected, setSellerSelected] = useState();
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const history = useHistory();
@@ -24,6 +24,7 @@ function CustomerCheckout() {
 
   const getSeller = async () => {
     const { data } = await getSellers();
+    setSellerSelected(data[0].id);
     setSellers(data);
   };
 
@@ -116,12 +117,12 @@ function CustomerCheckout() {
           )) }
         </tbody>
       </table>
-      <h1>
+      <div>
         Total: R$
-        <h1 data-testid="customer_checkout__element-order-total-price">
+        <h2 data-testid="customer_checkout__element-order-total-price">
           {total.replace('.', ',')}
-        </h1>
-      </h1>
+        </h2>
+      </div>
       <h2> Detalhes e Endereço para Entrega </h2>
       <form>
         <label htmlFor="vendedora">
