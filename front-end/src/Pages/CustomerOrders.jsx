@@ -126,7 +126,7 @@ function CustomerOrders() {
                 data-testid={ `customer_order_details__
                 element-order-table-unit-price-${i}` }
               >
-                { item.price.toFixed(2).replace('.', ',') }
+                { item.price.replace('.', ',') }
               </td>
               <td
                 data-testid={ `customer_order_details__
