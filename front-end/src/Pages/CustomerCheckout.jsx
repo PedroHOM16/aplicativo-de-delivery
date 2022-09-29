@@ -122,7 +122,7 @@ function CustomerCheckout() {
       <h1>
         Total: R$
         <h1 data-testid="customer_checkout__element-order-total-price">
-          { total }
+          { total.replace('.', ',') }
         </h1>
       </h1>
       <h2> Detalhes e Endereço para Entrega </h2>
