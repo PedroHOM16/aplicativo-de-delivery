@@ -19,3 +19,10 @@ export const getProducts = (endpoint, token) => api.get(endpoint, {
     Authorization: token,
   },
 });
+
+export const requestSale = (endpoint, body, headers) => api
+  .post(endpoint, body, headers)
+  .then(({ data }) => data)
+  .catch((e) => ({ error: e.response.data }));
+
+export const getSellers = () => api.get('/user/sellers');
