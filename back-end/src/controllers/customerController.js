@@ -1,7 +1,13 @@
 const {
-  validateBodySale, createSale, createSalesProducts } = require('../services/customerService');
+  validateBodySale,
+  createSale,
+  createSalesProducts,
+  validateParamsId, 
+  getSale, 
+  getProducts } = require('../services/customerService');
 const customerService = require('../services/customerService');
 const loginService = require('../services/loginService');
+const { getName } = require('../services/userService');
 const userService = require('../services/userService');
 
 const customerController = {
@@ -21,6 +27,25 @@ const customerController = {
     const { id } = await createSale({ userId: user.id, ...sale });
     await createSalesProducts(id, products);
     res.status(201).json({ saleId: id });
+  },
+  async getOrderById(req, res) {
+    const token = await loginService.validateToken(req.headers);
+    const payload = await loginService.readToken(token);
+    const { user: { email } } = payload;
+    await userService.getByEmailOrThrows(email);
+    const data = await validateParamsId(req.params);
+    const { sellerId, totalPrice, status, saleDate, id } = await getSale(data);
+    const sellerName = await getName(sellerId);
+    const products = await getProducts(id);
+    const objResponse = {
+      id,
+      sellerName,
+      totalPrice,
+      status,
+      saleDate,
+      products,    
+    };
+    res.json(objResponse);
   },
 };
 

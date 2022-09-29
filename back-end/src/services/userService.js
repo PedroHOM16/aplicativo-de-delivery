@@ -18,6 +18,13 @@ const userService = {
     if (!user) throwNotFoundError();
     return user;
   },
+  async getName(id) {
+    const response = await Users.findByPk(id, {
+      raw: true,
+      attributes: { exclude: ['id', 'email', 'password', 'role'] },
+    });
+    return response.name;
+  },
 };
 
 module.exports = userService;
