@@ -44,6 +44,17 @@ const customerService = {
     const response = await Sales.findByPk(id, { raw: true });
     return response;
   },
+  async getSalesByUserId({ id }) {
+    const response = await Sales.findAll({
+      where: { userId: id } },
+    {
+      raw: true,
+      attributes: { exclude: ['userId', 'sellerId', 'deliveryAddress', 'deliveryNumber'] },
+    });
+    const array = response.map((resp) => resp.toJSON());
+    console.log('respo: ', array);
+    return array;
+  },
   async getProducts(id) {
     const response = await SalesProducts.findAll(
       { where: { saleId: id } }, { raw: true },
