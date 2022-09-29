@@ -40,3 +40,10 @@ export const changeStatus = (token, id) => api.get(`/customer/orders/status/${id
     params: id,
   },
 });
+
+export const getSalles = (token, id) => api.post('/customer/orders', {
+  headers: {
+    Authorization: token,
+    params: id,
+  },
+});
