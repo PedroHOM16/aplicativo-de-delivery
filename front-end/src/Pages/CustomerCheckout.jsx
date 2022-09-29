@@ -16,7 +16,7 @@ function CustomerCheckout() {
   const removeById = (id) => {
     const remove = carState.find((rm) => rm.id === id);
     const subtrair = Number(remove.quantity) * Number(remove.price);
-    setTotal((Number(total) - subtrair).toFixed(2).replace('.', ','));
+    setTotal((Number(total) - subtrair).toFixed(2));
     const newCar = carState.filter((car) => car.id !== id);
     setCarState(newCar);
     setCar(newCar);
@@ -38,10 +38,9 @@ function CustomerCheckout() {
     };
     const { token } = getUser();
     const headers = {
-      Authorization: `token ${token}`,
+      Authorization: token,
     };
 
-    console.log({ headers });
     try {
       const { saleId } = await requestSale('/customer/checkout', data, { headers });
       history.push(`/customer/orders/${saleId}`);
@@ -58,8 +57,6 @@ function CustomerCheckout() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(carState);
-  console.log(sellers);
   return (
     <div>
       <NavBar />
@@ -122,7 +119,7 @@ function CustomerCheckout() {
       <h1>
         Total: R$
         <h1 data-testid="customer_checkout__element-order-total-price">
-          { total.replace('.', ',') }
+          {total.replace('.', ',')}
         </h1>
       </h1>
       <h2> Detalhes e Endereço para Entrega </h2>
