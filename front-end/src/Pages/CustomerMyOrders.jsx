@@ -8,33 +8,12 @@ function CustomerMyOrders() {
   const [salles, setSalles] = useState();
   const location = useLocation();
 
-  const mock = [
-    {
-      id: '3',
-      totalPrice: '100.9',
-      status: 'Pendente',
-      saleDate: '25/02/03',
-    },
-    {
-      id: '2',
-      totalPrice: '120.9',
-      status: 'Pendente',
-      saleDate: '25/03/03',
-    },
-    {
-      id: '1',
-      totalPrice: '130.9',
-      status: 'Pendente',
-      saleDate: '25/06/03',
-    },
-  ];
-
   const getSallesFunc = async () => {
     const { token } = getUser();
     const { pathname } = location;
     const idUrl = pathname.split('/')[3];
-    // const { data } = await getSalles(token, idUrl);
-    setSalles(mock);
+    const { data } = await getSalles(token, idUrl);
+    setSalles(data);
   };
 
   useEffect(() => {
