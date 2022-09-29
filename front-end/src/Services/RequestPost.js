@@ -26,3 +26,17 @@ export const requestSale = (endpoint, body, headers) => api
   .catch((e) => ({ error: e.response.data }));
 
 export const getSellers = () => api.get('/user/sellers');
+
+export const getSeller = (token, id) => api.post(`/customer/orders/${id}`, {
+  headers: {
+    Authorization: token,
+    params: id,
+  },
+});
+
+export const changeStatus = (token, id) => api.get(`/customer/orders/status/${id}`, {
+  headers: {
+    Authorization: token,
+    params: id,
+  },
+});
