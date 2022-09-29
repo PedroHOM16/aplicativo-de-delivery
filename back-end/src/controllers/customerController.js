@@ -29,6 +29,10 @@ const customerController = {
     res.status(201).json({ saleId: id });
   },
   async getOrderById(req, res) {
+    const token = await loginService.validateToken(req.headers);
+    const payload = await loginService.readToken(token);
+    const { user: { email } } = payload;
+    await userService.getByEmailOrThrows(email);
     const data = await validateParamsId(req.params);
     const { sellerId, totalPrice, status, saleDate, id } = await getSale(data);
     const sellerName = await getName(sellerId);
