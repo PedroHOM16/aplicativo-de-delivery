@@ -4,9 +4,29 @@ const userService = require('../services/userService');
 const { formatDate } = require('../services/utils');
 
 const sellerController = {
-  // async sendSeller(req, res) {
+  async prepareStatus(req, res) {
+    const token = await loginService.validateToken(req.headers);
+    const payload = await loginService.readToken(token);
+    const { user: { role, email } } = payload;
+    await userService.getByEmailOrThrows(email);
+    sellerService.validateRole(role);
+    const data = await sellerService.validateParamsId(req.params);
+    const sale = await sellerService.getSale(data);
+    const response = await sellerService.statusPrepare(sale);
+    res.json({ status: response.status });
+  },
 
-  // },
+  async dispatchStatus(req, res) {
+    const token = await loginService.validateToken(req.headers);
+    const payload = await loginService.readToken(token);
+    const { user: { role, email } } = payload;
+    await userService.getByEmailOrThrows(email);
+    sellerService.validateRole(role);
+    const data = await sellerService.validateParamsId(req.params);
+    const sale = await sellerService.getSale(data);
+    const response = await sellerService.statusDispatch(sale);
+    res.json({ status: response.status });
+  },
 
   async getOrdersBySellerId(req, res) {
     const token = await loginService.validateToken(req.headers);
@@ -14,7 +34,6 @@ const sellerController = {
     const { user: { email } } = payload;
     const seller = await userService.getByEmailOrThrows(email);
     const array = await sellerService.getSalesBySellerId(seller);
-    console.log('resposta: ', array);
     const response = array.map((each) => ({
       id: each.id,
       totalPrice: each.totalPrice,

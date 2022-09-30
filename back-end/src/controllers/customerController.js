@@ -10,6 +10,7 @@ const customerController = {
     const products = await customerService.getAll();
     res.json(products);
   },
+
   async createSale(req, res) {
     const token = await loginService.validateToken(req.headers);
     const payload = await loginService.readToken(token);
@@ -21,6 +22,19 @@ const customerController = {
     await customerService.createSalesProducts(id, products);
     res.status(201).json({ saleId: id });
   },
+
+  async finishStatus(req, res) {
+    const token = await loginService.validateToken(req.headers);
+    const payload = await loginService.readToken(token);
+    const { user: { role, email } } = payload;
+    await userService.getByEmailOrThrows(email);
+    customerService.validateRole(role);
+    const data = await customerService.validateParamsId(req.params);
+    const sale = await customerService.getSale(data);
+    const response = await customerService.statusDispatch(sale);
+    res.json({ status: response.status });
+  },
+
   async getOrderById(req, res) {
     const token = await loginService.validateToken(req.headers);
     const payload = await loginService.readToken(token);
@@ -40,6 +54,7 @@ const customerController = {
     };
     res.json(objResponse);
   },
+
   async getOrdersByUserId(req, res) {
     const token = await loginService.validateToken(req.headers);
     const payload = await loginService.readToken(token);

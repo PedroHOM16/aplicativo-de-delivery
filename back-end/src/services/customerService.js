@@ -1,11 +1,23 @@
 const Joi = require('joi');
 const { Products, Sales, SalesProducts } = require('../database/models');
+const { throwUnauthorizedError } = require('./utils');
 
 const customerService = {
+  async validateRole(role) {
+    if (role !== 'customer') throwUnauthorizedError();
+  },
+
+  async statusFinish(sale) {
+    const data = await Sales.findByPk(sale.id);
+    data.setDataValue('status', 'Entregue');
+    return data.toJSON();
+  },
+
   async getAll() {
     const products = await Products.findAll({ raw: true });
     return products;
   },
+
   async validateBodySale(body) {
     const schema = Joi.object({
       sellerId: Joi.number().required(),
@@ -22,6 +34,7 @@ const customerService = {
     const data = await schema.validateAsync(body);
     return data;
   },
+
   async createSale(data) {
     const response = await Sales.create(
       { status: 'Pendente', ...data },
@@ -29,10 +42,12 @@ const customerService = {
     );
     return response.toJSON();
   },
+
   async createSalesProducts(saleId, data) {
     const obj = data.map(({ id, quantity }) => ({ saleId, productId: id, quantity }));
     await SalesProducts.bulkCreate(obj, { validate: true });
   },
+
   async validateParamsId(params) {
     const schema = Joi.object({
       id: Joi.number().required(),
@@ -40,10 +55,12 @@ const customerService = {
     const data = await schema.validateAsync(params);
     return data;
   },
+
   async getSale({ id }) {
     const response = await Sales.findByPk(id, { raw: true });
     return response;
   },
+
   async getSalesByUserId({ id }) {
     const response = await Sales.findAll({
       where: { userId: id } },
@@ -55,6 +72,7 @@ const customerService = {
     console.log('respo: ', array);
     return array;
   },
+
   async getProducts(id) {
     const response = await SalesProducts.findAll(
       { where: { saleId: id } }, { raw: true },

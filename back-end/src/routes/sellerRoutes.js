@@ -5,6 +5,7 @@ const sellerRoute = Router();
 
 sellerRoute.get('/orders', sellerController.getOrdersBySellerId);
 sellerRoute.get('/orders/:id', sellerController.getOrderById);
-// sellerRoute.post('', sellerController.sendStatus);
+sellerRoute.get('/orders/prepare/:id', sellerController.prepareStatus);
+sellerRoute.get('/orders/dispatch/:id', sellerController.dispatchStatus);
 
 module.exports = sellerRoute;

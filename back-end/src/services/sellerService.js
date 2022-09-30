@@ -1,7 +1,24 @@
 const Joi = require('joi');
 const { Sales, SalesProducts, Products } = require('../database/models');
+const { throwUnauthorizedError } = require('./utils');
 
 const sellerService = {
+  async validateRole(role) {
+    if (role !== 'seller') throwUnauthorizedError();
+  },
+
+  async statusPrepare(sale) {
+    const data = await Sales.findByPk(sale.id);
+    data.setDataValue('status', 'Preparando');
+    return data.toJSON();
+  },
+
+  async statusDispatch(sale) {
+    const data = await Sales.findByPk(sale.id);
+    data.setDataValue('status', 'Em Trânsito');
+    return data.toJSON();
+  },
+
   async validateParamsId(params) {
     const schema = Joi.object({
       id: Joi.number().required(),
