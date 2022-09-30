@@ -1,41 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
-// import { getSallesSeller } from '../Services/RequestPost';
-// import { getUser } from '../Helpers/LocalStorage';
+import { getSallesSeller } from '../Services/RequestPost';
+import { getUser } from '../Helpers/LocalStorage';
 
 function SellersOrders() {
   const [salles, setSalles] = useState();
   const history = useHistory();
 
-  const mock = [
-    {
-      id: '3',
-      totalPrice: '100.9',
-      status: 'Pendente',
-      saleDate: '25/02/03',
-      address: 'R Aasdasdas Asdasd',
-    },
-    {
-      id: '2',
-      totalPrice: '120.9',
-      status: 'Pendente',
-      saleDate: '25/03/03',
-      address: 'R dgdagg Asdasd',
-    },
-    {
-      id: '1',
-      totalPrice: '130.9',
-      status: 'Pendente',
-      saleDate: '25/06/03',
-      address: 'R rruyrtur Asdasd',
-    },
-  ];
-
   const getSallesFunc = async () => {
-    // const { token } = getUser();
-    // const { data } = await getSallesSeller(token);
-    setSalles(mock);
+    const { token } = getUser();
+    const { data } = await getSallesSeller(token);
+    setSalles(data);
   };
 
   useEffect(() => {
