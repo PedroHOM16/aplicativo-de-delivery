@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
-import { getSeller, changeStatus } from '../Services/RequestPost';
+import { getOrderById, changeStatus } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
 function CustomerOrders() {
@@ -9,12 +9,13 @@ function CustomerOrders() {
   const [total, setTotal] = useState();
   const [seller, setSeller] = useState();
   const location = useLocation();
+  const LABEL = 'customer_order_details__element-order-details-label-delivery-status';
 
-  const getSellerFunc = async () => {
+  const getOrderByIdFunc = async () => {
     const { token } = getUser();
     const { pathname } = location;
     const idUrl = pathname.split('/')[3];
-    const { data } = await getSeller(token, idUrl);
+    const { data } = await getOrderById(token, idUrl);
     setCarState(data.products);
     const { id, sellerName, totalPrice, status, saleDate } = data;
     const sellerObj = { id, sellerName, totalPrice, status, saleDate };
@@ -24,7 +25,7 @@ function CustomerOrders() {
 
   useEffect(() => {
     const asyncFunc = async () => {
-      await getSellerFunc();
+      await getOrderByIdFunc();
     };
     asyncFunc();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,23 +39,15 @@ function CustomerOrders() {
   };
 
   const renderSalle = ({ id, sellerName, status, saleDate }) => {
-    const id3 = 3;
-    if (id.length === 1) {
-      id = `000${id}`;
-    } else
-    if (id.length === 2) {
-      id = `00${id}`;
-    } else
-    if (id.length === id3) {
-      id = `0${id}`;
-    }
+    const size = -4;
+    const idH1 = (`000${id}`).slice(size);
     return (
-      <div>
+      <>
         <label
           htmlFor="id"
           data-testid="customer_order_details__element-order-details-label-order-id"
         >
-          <h1 id="id">{`Pedido ${id}`}</h1>
+          <h1 id="id">{`Pedido ${idH1}`}</h1>
         </label>
         <label
           htmlFor="sellerName"
@@ -70,8 +63,7 @@ function CustomerOrders() {
         </label>
         <label
           htmlFor="status"
-          data-testid={ `customer_order_details__
-          element-order-details-label-delivery-status` }
+          data-testid={ LABEL }
         >
           <h1>{ status }</h1>
         </label>
@@ -79,10 +71,11 @@ function CustomerOrders() {
           type="button"
           data-testid="customer_order_details__button-delivery-check"
           onClick={ changeStatusBtn }
+          disabled="true"
         >
           Marcar como entregue
         </button>
-      </div>
+      </>
     );
   };
 
