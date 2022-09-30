@@ -8,7 +8,7 @@ const customerService = {
   },
 
   async statusFinish({ id }) {
-    const data = await Sales.update({ status: 'Entregue' },{ where: { id } });
+    await Sales.update({ status: 'Entregue' }, { where: { id } });
     return { status: 'Entregue' };
   },
 

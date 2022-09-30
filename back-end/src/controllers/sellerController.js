@@ -17,7 +17,6 @@ const sellerController = {
   },
 
   async dispatchStatus(req, res) {
-    
     const token = await loginService.validateToken(req.headers);
     const payload = await loginService.readToken(token);
     const { user: { role, email } } = payload;

@@ -8,12 +8,12 @@ const sellerService = {
   },
 
   async statusPrepare({ id }) {
-    const data = await Sales.update({ status: 'Preparando' },{ where: { id } });
+    await Sales.update({ status: 'Preparando' }, { where: { id } });
     return { status: 'Preparando' };
   },
 
   async statusDispatch({ id }) {
-    const data = await Sales.update({ status: 'Em Trânsito' },{ where: { id } });
+    await Sales.update({ status: 'Em Trânsito' }, { where: { id } });
     return { status: 'Em Trânsito' };
   },
 
