@@ -10,7 +10,7 @@ export const setRegister = (data) => localStorage.setItem(REGISTER, JSON.stringi
 export const getUser = () => {
   const userLocal = JSON.parse(localStorage.getItem(USER));
   if (userLocal) return userLocal;
-  return { token: '' };
+  return null;
 };
 
 export const removeUser = () => {
