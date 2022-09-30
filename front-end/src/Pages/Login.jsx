@@ -21,7 +21,7 @@ function Login() {
 
   const redirectLogin = (role) => {
     const customerUrl = '/customer/products';
-    const sellerUrl = '/sellers/orders';
+    const sellerUrl = '/seller/orders';
     switch (role) {
     case 'customer':
       history.push(customerUrl);
