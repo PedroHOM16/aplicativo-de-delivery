@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { requestLogin } from '../Services/RequestPost';
 import { getUser, setUser } from '../Helpers/LocalStorage';
@@ -19,24 +19,44 @@ function Login() {
     return password.length < minPassword;
   };
 
-  const stillLoggedIn = async () => {
-    const result = await requestLogin('/login', { email, password });
-    setRenderError('');
-    setUser(result);
-    const user = getUser();
-    if (!user) return false;
+  const redirectLogin = (role) => {
     const customerUrl = '/customer/products';
-    const sellersUrl = '/sellers/orders';
-    switch (user.role) {
+    const sellerUrl = '/sellers/orders';
+    switch (role) {
     case 'customer':
-      return history.push(customerUrl);
+      history.push(customerUrl);
+      break;
     case 'seller':
-      return history.push(sellersUrl);
+      history.push(sellerUrl);
+      break;
     case 'administrator':
     default:
-      return history.push('/');
+      break;
     }
   };
+
+  const validateLogin = async () => {
+    const result = await requestLogin('/login', { email, password });
+    if (result.error) {
+      setRenderError(result.error.message);
+    } else {
+      setRenderError('');
+      setUser(result);
+      if (!result) return false;
+      redirectLogin(result.role);
+    }
+  };
+
+  const stillLoggedIn = () => {
+    const result = getUser();
+    if (!result) return false;
+    redirectLogin(result.role);
+  };
+
+  useEffect(() => {
+    stillLoggedIn();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
@@ -60,7 +80,7 @@ function Login() {
         type="button"
         data-testid="common_login__button-login"
         disabled={ validateEmail() || validatePassword() }
-        onClick={ stillLoggedIn }
+        onClick={ validateLogin }
       >
         Login
       </button>
