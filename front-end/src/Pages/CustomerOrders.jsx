@@ -71,7 +71,7 @@ function CustomerOrders() {
           type="button"
           data-testid="customer_order_details__button-delivery-check"
           onClick={ changeStatusBtn }
-          disabled
+          disabled={ status !== 'Em Trânsito' }
         >
           Marcar como entregue
         </button>

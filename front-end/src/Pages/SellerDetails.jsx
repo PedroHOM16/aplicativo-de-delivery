@@ -4,10 +4,11 @@ import NavBar from '../Components/NavBar';
 import { getOrderById, changeStatusSeller } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
-function SellersDetails() {
+function SellerDetails() {
   const [carState, setCarState] = useState();
   const [total, setTotal] = useState();
   const [seller, setSeller] = useState();
+  const [statusState, setStatus] = useState('Pendente');
   const location = useLocation();
   const LABEL = 'seller_order_details__element-order-details-label-delivery-status';
   const ID = 'seller_order_details__element-order-table-unit-price';
@@ -36,10 +37,11 @@ function SellersDetails() {
     const { token } = getUser();
     const { pathname } = location;
     const idUrl = pathname.split('/')[3];
-    await changeStatusSeller(status, token, idUrl);
+    const { data } = await changeStatusSeller(status, token, idUrl);
+    setStatus(data.status);
   };
 
-  const renderSalle = ({ id, status, saleDate }) => {
+  const renderSalle = ({ id, saleDate }) => {
     const size = -4;
     const idH1 = (`000${id}`).slice(size);
     return (
@@ -61,12 +63,13 @@ function SellersDetails() {
           htmlFor="status"
           data-testid={ LABEL }
         >
-          <h1>{ status }</h1>
+          <h1>{ statusState }</h1>
         </label>
         <button
           type="button"
           data-testid="seller_order_details__button-preparing-check"
           onClick={ () => { changeStatusBtn('preparing'); } }
+          disabled={ statusState !== 'Pendente' }
         >
           Preparar Pedido
         </button>
@@ -74,6 +77,7 @@ function SellersDetails() {
           type="button"
           data-testid="seller_order_details__button-dispatch-check"
           onClick={ () => { changeStatusBtn('dispatch'); } }
+          disabled={ statusState === 'Pendente' }
         >
           Saiu para Entrega
         </button>
@@ -139,4 +143,4 @@ function SellersDetails() {
     </div>
   );
 }
-export default SellersDetails;
+export default SellerDetails;

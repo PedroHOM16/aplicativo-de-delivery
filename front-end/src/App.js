@@ -9,8 +9,8 @@ import CustomerProducts from './Pages/CustomerProducts';
 import CustomerCheckout from './Pages/CustomerCheckout';
 import CustomerOrders from './Pages/CustomerOrders';
 import CustomerMyOrders from './Pages/CustomerMyOrders';
-import SellersOrders from './Pages/SellersOrders';
-import SellersDetails from './Pages/SellersDetails';
+import SellerOrders from './Pages/SellerOrders';
+import SellerDetails from './Pages/SellerDetails';
 
 function App() {
   return (
@@ -52,13 +52,13 @@ function App() {
         exact
       />
       <Route
-        path="/sellers/orders"
-        component={ SellersOrders }
+        path="/seller/orders"
+        component={ SellerOrders }
         exact
       />
       <Route
-        path="/sellers/orders/:id"
-        component={ SellersDetails }
+        path="/seller/orders/:id"
+        component={ SellerDetails }
         exact
       />
     </Switch>

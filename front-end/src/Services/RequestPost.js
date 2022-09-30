@@ -45,14 +45,14 @@ export const getSalles = (token) => api.get('/customer/orders', {
   },
 });
 
-export const getSallesSeller = (token) => api.get('/sellers/orders', {
+export const getSallesSeller = (token) => api.get('/seller/orders', {
   headers: {
     Authorization: token,
   },
 });
 
 export const changeStatusSeller = (endpoint, token, id) => api
-  .get(`/sellers/orders/${endpoint}/${id}`, {
+  .get(`/seller/orders/${endpoint}/${id}`, {
     headers: {
       Authorization: token,
     },
