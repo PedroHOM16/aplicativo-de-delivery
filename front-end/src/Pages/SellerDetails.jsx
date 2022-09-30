@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import NavBarS from '../Components/NavBar';
+import NavBarS from '../Components/NavBarS';
 import { getSellerOrderById, changeStatusSeller } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
@@ -78,7 +78,7 @@ function SellerDetails() {
           type="button"
           data-testid="seller_order_details__button-dispatch-check"
           onClick={ () => { changeStatusBtn('dispatch'); } }
-          disabled={ statusState === 'Pendente' || statusState === 'Em Trânsito' }
+          disabled={ statusState !== 'Preparando' }
         >
           Saiu para Entrega
         </button>

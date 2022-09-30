@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import NavBarS from '../Components/NavBar';
+import NavBarS from '../Components/NavBarS';
 import { getSallesSeller } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
