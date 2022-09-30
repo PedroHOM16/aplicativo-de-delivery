@@ -8,6 +8,7 @@ function CustomerOrders() {
   const [carState, setCarState] = useState();
   const [total, setTotal] = useState();
   const [seller, setSeller] = useState();
+  const [statusState, setStatusState] = useState();
   const location = useLocation();
   const LABEL = 'customer_order_details__element-order-details-label-delivery-status';
 
@@ -21,6 +22,7 @@ function CustomerOrders() {
     const sellerObj = { id, sellerName, totalPrice, status, saleDate };
     setSeller(sellerObj);
     setTotal(totalPrice);
+    setStatusState(status);
   };
 
   useEffect(() => {
@@ -35,10 +37,11 @@ function CustomerOrders() {
     const { token } = getUser();
     const { pathname } = location;
     const idUrl = pathname.split('/')[3];
-    await changeStatus(token, idUrl);
+    const { data } = await changeStatus(token, idUrl);
+    setStatusState(data.status);
   };
 
-  const renderSalle = ({ id, sellerName, status, saleDate }) => {
+  const renderSalle = ({ id, sellerName, saleDate }) => {
     const size = -4;
     const idH1 = (`000${id}`).slice(size);
     return (
@@ -65,13 +68,13 @@ function CustomerOrders() {
           htmlFor="status"
           data-testid={ LABEL }
         >
-          <h1>{ status }</h1>
+          <h1>{ statusState }</h1>
         </label>
         <button
           type="button"
           data-testid="customer_order_details__button-delivery-check"
           onClick={ changeStatusBtn }
-          disabled={ status !== 'Em Trânsito' }
+          disabled={ statusState !== 'Em Trânsito' }
         >
           Marcar como entregue
         </button>
