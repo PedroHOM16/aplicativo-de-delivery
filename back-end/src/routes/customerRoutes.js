@@ -5,7 +5,7 @@ const customerRoute = Router();
 
 customerRoute.post('/checkout', customerController.createSale);
 customerRoute.get('/products', customerController.getAll);
-customerRoute.get('/orders/:id', customerController.getOrdersByUserId);
-customerRoute.get('/orders/sale/:id', customerController.getOrderById);
+customerRoute.get('/orders', customerController.getOrdersByUserId);
+customerRoute.get('/orders/:id', customerController.getOrderById);
 
 module.exports = customerRoute;
