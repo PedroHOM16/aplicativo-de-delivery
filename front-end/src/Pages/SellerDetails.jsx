@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import NavBarS from '../Components/NavBarS';
-import { getOrderById, changeStatusSeller } from '../Services/RequestPost';
+import NavBarS from '../Components/NavBar';
+import { getSellerOrderById, changeStatusSeller } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
 function SellerDetails() {
   const [carState, setCarState] = useState();
   const [total, setTotal] = useState();
   const [seller, setSeller] = useState();
-  const [statusState, setStatus] = useState('Pendente');
+  const [statusState, setStatus] = useState();
   const location = useLocation();
   const LABEL = 'seller_order_details__element-order-details-label-delivery-status';
   const ID = 'seller_order_details__element-order-table-unit-price';
@@ -17,10 +17,11 @@ function SellerDetails() {
     const { token } = getUser();
     const { pathname } = location;
     const idUrl = pathname.split('/')[3];
-    const { data } = await getOrderById(token, idUrl);
+    const { data } = await getSellerOrderById(token, idUrl);
     setCarState(data.products);
     const { id, sellerName, totalPrice, status, saleDate } = data;
     const sellerObj = { id, sellerName, totalPrice, status, saleDate };
+    setStatus(status);
     setSeller(sellerObj);
     setTotal(totalPrice);
   };
@@ -68,7 +69,7 @@ function SellerDetails() {
         <button
           type="button"
           data-testid="seller_order_details__button-preparing-check"
-          onClick={ () => { changeStatusBtn('preparing'); } }
+          onClick={ () => { changeStatusBtn('prepare'); } }
           disabled={ statusState !== 'Pendente' }
         >
           Preparar Pedido
@@ -77,7 +78,7 @@ function SellerDetails() {
           type="button"
           data-testid="seller_order_details__button-dispatch-check"
           onClick={ () => { changeStatusBtn('dispatch'); } }
-          disabled={ statusState === 'Pendente' }
+          disabled={ statusState === 'Pendente' || statusState === 'Em Trânsito' }
         >
           Saiu para Entrega
         </button>

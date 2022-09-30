@@ -13,10 +13,11 @@ const sellerController = {
     const data = await sellerService.validateParamsId(req.params);
     const sale = await sellerService.getSale(data);
     const response = await sellerService.statusPrepare(sale);
-    res.json({ status: response.status });
+    res.json(response);
   },
 
   async dispatchStatus(req, res) {
+    
     const token = await loginService.validateToken(req.headers);
     const payload = await loginService.readToken(token);
     const { user: { role, email } } = payload;
@@ -25,7 +26,7 @@ const sellerController = {
     const data = await sellerService.validateParamsId(req.params);
     const sale = await sellerService.getSale(data);
     const response = await sellerService.statusDispatch(sale);
-    res.json({ status: response.status });
+    res.json(response);
   },
 
   async getOrdersBySellerId(req, res) {

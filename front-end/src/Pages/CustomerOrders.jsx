@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
-import { getOrderById, changeStatus } from '../Services/RequestPost';
+import { getCustomerOrderById, changeStatus } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
 function CustomerOrders() {
@@ -15,7 +15,7 @@ function CustomerOrders() {
     const { token } = getUser();
     const { pathname } = location;
     const idUrl = pathname.split('/')[3];
-    const { data } = await getOrderById(token, idUrl);
+    const { data } = await getCustomerOrderById(token, idUrl);
     setCarState(data.products);
     const { id, sellerName, totalPrice, status, saleDate } = data;
     const sellerObj = { id, sellerName, totalPrice, status, saleDate };

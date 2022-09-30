@@ -32,7 +32,7 @@ const customerController = {
     const data = await customerService.validateParamsId(req.params);
     const sale = await customerService.getSale(data);
     const response = await customerService.statusFinish(sale);
-    res.json({ status: response.status });
+    res.json(response);
   },
 
   async getOrderById(req, res) {

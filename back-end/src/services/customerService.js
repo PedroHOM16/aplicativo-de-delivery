@@ -7,10 +7,9 @@ const customerService = {
     if (role !== 'customer') throwUnauthorizedError();
   },
 
-  async statusFinish(sale) {
-    const data = await Sales.findByPk(sale.id);
-    data.setDataValue('status', 'Entregue');
-    return data.toJSON();
+  async statusFinish({ id }) {
+    const data = await Sales.update({ status: 'Entregue' },{ where: { id } });
+    return { status: 'Entregue' };
   },
 
   async getAll() {
