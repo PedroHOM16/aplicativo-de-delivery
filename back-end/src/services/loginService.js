@@ -1,10 +1,11 @@
 const Joi = require('joi');
 const Jwt = require('jsonwebtoken');
 const md5 = require('md5');
+const fs = require('fs');
 const { Users } = require('../database/models');
 const { throwNotFoundError, throwUnauthorizedError } = require('./utils');
 
-const secret = process.env.JWT_SECRET;
+const secret = fs.readFileSync('jwt.evaluation.key', { encoding: 'utf-8' });
 
 const loginService = {
   async validateBodyLogin(body) {
@@ -18,7 +19,9 @@ const loginService = {
   async validateToken(headers) {
     const { authorization } = headers;
     if (!authorization) throwUnauthorizedError('Token not found');
-    const token = authorization.replace('Bearer ', '');
+    let token = '';
+    if (authorization.split(' ').length > 1) [, token] = authorization.split(' ');
+    else token = authorization;
     return token;
   },
   async makeToken(data) {

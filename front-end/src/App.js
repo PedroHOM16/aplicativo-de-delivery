@@ -6,6 +6,9 @@ import Home from './Components/Home';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import CustomerProducts from './Pages/CustomerProducts';
+import CustomerCheckout from './Pages/CustomerCheckout';
+import CustomerOrders from './Pages/CustomerOrders';
+import CustomerMyOrders from './Pages/CustomerMyOrders';
 
 function App() {
   return (
@@ -27,8 +30,23 @@ function App() {
         exact
       />
       <Route
+        path="/customer/checkout"
+        component={ CustomerCheckout }
+        exact
+      />
+      <Route
         path="/customer/products"
         component={ CustomerProducts }
+        exact
+      />
+      <Route
+        path="/customer/orders/:id"
+        component={ CustomerOrders }
+        exact
+      />
+      <Route
+        path="/customer/orders"
+        component={ CustomerMyOrders }
         exact
       />
     </Switch>

@@ -28,6 +28,7 @@ module.exports = (sequelize) => {
   const SaleProduct = sequelize.define('SalesProducts', attributes, {
     tableName: 'sales_products',
     timestamps: false,
+    underscored: true,
   });
 
   SaleProduct.associate = (models) => {

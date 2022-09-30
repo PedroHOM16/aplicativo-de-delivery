@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { requestLogin } from '../Services/RequestPost';
-import { setUser } from '../Helpers/LocalStorage';
+import { getUser, setUser } from '../Helpers/LocalStorage';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ function Login() {
   const history = useHistory();
 
   const validateEmail = () => {
-    const regex = /^[a-z0-9._]+@[a-z0-9]+\.[a-z]+$/i;
+    const regex = /\S+@\S+\.\S+/;
     return !email.match(regex);
   };
 
@@ -20,25 +20,32 @@ function Login() {
   };
 
   const validateLogin = async () => {
-    // try {
-    //   const result = await requestLogin('/login', { email, password });
-    //   setUser(result);
-    //   history.push('/customer/products');
-    // } catch (error) {
-    //   setRenderErro(true);
-    // }
     const result = await requestLogin('/login', { email, password });
     if (result.error) {
       setRenderError(result.error.message);
     } else {
       setRenderError('');
       console.log(result);
-      setUser(result.data);
+      setUser(result);
       history.push('/customer/products');
     }
   };
 
-  return (
+  const stillLoggedIn = () => {
+    const result = getUser();
+    if (!result) return false;
+    const endpoint = '/customer/products';
+    switch (result.role) {
+    case 'customer':
+    case 'seller':
+    case 'administrator':
+      return (<Redirect to={ endpoint } />);
+    default:
+      return (<Redirect to={ endpoint } />);
+    }
+  };
+
+  return getUser() ? stillLoggedIn() : (
     <div>
       <input
         type="text"
