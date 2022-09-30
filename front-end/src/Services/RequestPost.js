@@ -27,7 +27,13 @@ export const requestSale = (endpoint, body, headers) => api
 
 export const getSellers = () => api.get('/user/sellers');
 
-export const getOrderById = (token, id) => api.get(`/customer/orders/${id}`, {
+export const getCustomerOrderById = (token, id) => api.get(`/customer/orders/${id}`, {
+  headers: {
+    Authorization: token,
+  },
+});
+
+export const getSellerOrderById = (token, id) => api.get(`/seller/orders/${id}`, {
   headers: {
     Authorization: token,
   },
