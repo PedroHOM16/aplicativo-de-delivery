@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import NavBar from '../Components/NavBar';
+import NavBarS from '../Components/NavBarS';
 // import { getSallesSeller } from '../Services/RequestPost';
 // import { getUser } from '../Helpers/LocalStorage';
 
@@ -88,7 +88,7 @@ function SellersOrders() {
 
   return (
     <div>
-      <NavBar />
+      <NavBarS />
 
       { salles && renderSalles() }
     </div>

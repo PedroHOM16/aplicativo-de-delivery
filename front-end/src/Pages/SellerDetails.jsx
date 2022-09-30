@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import NavBar from '../Components/NavBar';
+import NavBarS from '../Components/NavBarS';
 import { getOrderById, changeStatusSeller } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
@@ -87,7 +87,7 @@ function SellerDetails() {
 
   return (
     <div>
-      <NavBar />
+      <NavBarS />
       <h2>Detalhes do Pedido</h2>
       { seller && renderSalle(seller) }
       <table>
