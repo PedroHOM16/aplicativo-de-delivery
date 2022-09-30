@@ -7,16 +7,14 @@ const sellerService = {
     if (role !== 'seller') throwUnauthorizedError();
   },
 
-  async statusPrepare(sale) {
-    const data = await Sales.findByPk(sale.id);
-    data.setDataValue('status', 'Preparando');
-    return data.toJSON();
+  async statusPrepare({ id }) {
+    const data = await Sales.update({ status: 'Preparando' },{ where: { id } });
+    return { status: 'Preparando' };
   },
 
-  async statusDispatch(sale) {
-    const data = await Sales.findByPk(sale.id);
-    data.setDataValue('status', 'Em Trânsito');
-    return data.toJSON();
+  async statusDispatch({ id }) {
+    const data = await Sales.update({ status: 'Em Trânsito' },{ where: { id } });
+    return { status: 'Em Trânsito' };
   },
 
   async validateParamsId(params) {
