@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import { getSalles } from '../Services/RequestPost';
 import { getUser } from '../Helpers/LocalStorage';
 
 function CustomerMyOrders() {
   const [salles, setSalles] = useState();
-  const location = useLocation();
+  const history = useHistory();
 
   const getSallesFunc = async () => {
     const { token } = getUser();
-    const { pathname } = location;
-    const idUrl = pathname.split('/')[3];
-    const { data } = await getSalles(token, idUrl);
+    const { data } = await getSalles(token);
     setSalles(data);
   };
 
@@ -25,22 +23,18 @@ function CustomerMyOrders() {
   }, []);
 
   const renderSalles = () => salles.map(({ id, totalPrice, status, saleDate }) => {
-    const id3 = 3;
-    if (id.length === 1) {
-      id = `000${id}`;
-    } else
-    if (id.length === 2) {
-      id = `00${id}`;
-    } else
-    if (id.length === id3) {
-      id = `0${id}`;
-    }
+    const size = -4;
+    const idH1 = (`000${id}`).slice(size);
     return (
-      <div key={ id }>
+      <button
+        type="button"
+        key={ id }
+        onClick={ () => history.push(`/customer/orders/${id}`) }
+      >
         <h1
           data-testid={ `customer_orders__element-order-id-${id}` }
         >
-          {`Pedido ${id}`}
+          {`Pedido ${idH1}`}
         </h1>
         <h3
           data-testid={ `customer_orders__element-delivery-status-${id}` }
@@ -55,9 +49,9 @@ function CustomerMyOrders() {
         <h3
           data-testid={ `customer_orders__element-card-price-${id}` }
         >
-          { totalPrice }
+          { totalPrice.replace('.', ',') }
         </h3>
-      </div>
+      </button>
     );
   });
 
