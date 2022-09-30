@@ -52,7 +52,7 @@ const customerController = {
       saleDate: formatDate(each.saleDate), 
       status: each.status,
     }));
-    res.send(response);
+    res.json(response);
   },
 };
 
