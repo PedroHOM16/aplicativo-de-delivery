@@ -39,7 +39,7 @@ export const getSellerOrderById = (token, id) => api.get(`/seller/orders/${id}`,
   },
 });
 
-export const changeStatus = (token, id) => api.get(`/customer/orders/status/${id}`, {
+export const changeStatus = (token, id) => api.get(`/customer/orders/finish/${id}`, {
   headers: {
     Authorization: token,
   },
