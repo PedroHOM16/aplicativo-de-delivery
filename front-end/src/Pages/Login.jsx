@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { requestLogin } from '../Services/RequestPost';
 import { getUser, setUser } from '../Helpers/LocalStorage';
 
@@ -19,33 +19,26 @@ function Login() {
     return password.length < minPassword;
   };
 
-  const validateLogin = async () => {
+  const stillLoggedIn = async () => {
     const result = await requestLogin('/login', { email, password });
-    if (result.error) {
-      setRenderError(result.error.message);
-    } else {
-      setRenderError('');
-      console.log(result);
-      setUser(result);
-      history.push('/customer/products');
-    }
-  };
-
-  const stillLoggedIn = () => {
-    const result = getUser();
-    if (!result) return false;
-    const endpoint = '/customer/products';
-    switch (result.role) {
+    setRenderError('');
+    setUser(result);
+    const user = getUser();
+    if (!user) return false;
+    const customerUrl = '/customer/products';
+    const sellersUrl = '/sellers/orders';
+    switch (user.role) {
     case 'customer':
+      return history.push(customerUrl);
     case 'seller':
+      return history.push(sellersUrl);
     case 'administrator':
-      return (<Redirect to={ endpoint } />);
     default:
-      return (<Redirect to={ endpoint } />);
+      return history.push('/');
     }
   };
 
-  return getUser() ? stillLoggedIn() : (
+  return (
     <div>
       <input
         type="text"
@@ -67,7 +60,7 @@ function Login() {
         type="button"
         data-testid="common_login__button-login"
         disabled={ validateEmail() || validatePassword() }
-        onClick={ validateLogin }
+        onClick={ stillLoggedIn }
       >
         Login
       </button>
