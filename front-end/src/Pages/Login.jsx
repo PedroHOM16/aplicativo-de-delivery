@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { requestLogin } from '../Services/RequestPost';
 import { getUser, setUser } from '../Helpers/LocalStorage';
 
@@ -19,33 +19,46 @@ function Login() {
     return password.length < minPassword;
   };
 
+  const redirectLogin = (role) => {
+    const customerUrl = '/customer/products';
+    const sellerUrl = '/seller/orders';
+    switch (role) {
+    case 'customer':
+      history.push(customerUrl);
+      break;
+    case 'seller':
+      history.push(sellerUrl);
+      break;
+    case 'administrator':
+    default:
+      break;
+    }
+  };
+
   const validateLogin = async () => {
     const result = await requestLogin('/login', { email, password });
     if (result.error) {
       setRenderError(result.error.message);
     } else {
       setRenderError('');
-      console.log(result);
       setUser(result);
-      history.push('/customer/products');
+      if (!result) return false;
+      redirectLogin(result.role);
     }
   };
 
   const stillLoggedIn = () => {
     const result = getUser();
     if (!result) return false;
-    const endpoint = '/customer/products';
-    switch (result.role) {
-    case 'customer':
-    case 'seller':
-    case 'administrator':
-      return (<Redirect to={ endpoint } />);
-    default:
-      return (<Redirect to={ endpoint } />);
-    }
+    redirectLogin(result.role);
   };
 
-  return getUser() ? stillLoggedIn() : (
+  useEffect(() => {
+    stillLoggedIn();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
     <div>
       <input
         type="text"

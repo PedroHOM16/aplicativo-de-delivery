@@ -27,13 +27,19 @@ export const requestSale = (endpoint, body, headers) => api
 
 export const getSellers = () => api.get('/user/sellers');
 
-export const getOrderById = (token, id) => api.get(`/customer/orders/${id}`, {
+export const getCustomerOrderById = (token, id) => api.get(`/customer/orders/${id}`, {
   headers: {
     Authorization: token,
   },
 });
 
-export const changeStatus = (token, id) => api.get(`/customer/orders/status/${id}`, {
+export const getSellerOrderById = (token, id) => api.get(`/seller/orders/${id}`, {
+  headers: {
+    Authorization: token,
+  },
+});
+
+export const changeStatus = (token, id) => api.get(`/customer/orders/finish/${id}`, {
   headers: {
     Authorization: token,
   },
@@ -44,3 +50,16 @@ export const getSalles = (token) => api.get('/customer/orders', {
     Authorization: token,
   },
 });
+
+export const getSallesSeller = (token) => api.get('/seller/orders', {
+  headers: {
+    Authorization: token,
+  },
+});
+
+export const changeStatusSeller = (endpoint, token, id) => api
+  .get(`/seller/orders/${endpoint}/${id}`, {
+    headers: {
+      Authorization: token,
+    },
+  });
