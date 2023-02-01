@@ -34,3 +34,5 @@ Context API para gerenciar os estados
 
 Um abraço especial para [Arthur](https://github.com/ClawNarok), [Luan Nakashima](https://github.com/LuanNakashima), [Miguel Menezess](https://github.com/rmiguel139) e [Allan Eric](https://github.com/aejepsen)!
 Grupo 20 trabalhou duro! 
+
+[Pedro Henrique Oliveira de Moura](https://pedrohom16.github.io/)
